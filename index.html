@@ -210,8 +210,15 @@
             
             // খাম খুললে গান বাজবে, বন্ধ করলে থেমে যাবে
             if (envelope.classList.contains('open')) {
-                audio.play();
-            } else {
+    audio.play().then(() => {
+        // মিউজিক সফলভাবে শুরু হয়েছে
+        console.log("গান বাজছে...");
+    }).catch(error => {
+        // যদি ব্রাউজার মিউজিক ব্লক করে
+        console.log("মিউজিক প্লে হতে সমস্যা হচ্ছে: ", error);
+        alert("গান শোনার জন্য একবার স্ক্রিনে ক্লিক করুন!");
+    });
+}      else {
                 audio.pause();
                 audio.currentTime = 0; // গান আবার প্রথম থেকে শুরু হবে
             }
