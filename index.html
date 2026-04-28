@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Birthday Wish</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&family=Poppins:wght@400;600&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* প্রিমিয়াম ডিপ নাইট স্কাই গ্র্যাডিয়েন্ট */
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            margin: 0;
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        /* ব্যাকগ্রাউন্ড ডেকোরেশন */
+        .bg-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* বাস্তবসম্মত তারার স্টাইল */
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite alternate ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); box-shadow: 0 0 0px #fff; }
+            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px 1px #fff; }
+        }
+
+        /* শুটিং স্টার ইফেক্ট */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(-45deg, #ffffff, rgba(0, 0, 255, 0));
+            filter: drop-shadow(0 0 6px #ffffff);
+            animation: shoot 4s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes shoot {
+            0% { transform: rotate(-45deg) translateX(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: rotate(-45deg) translateX(-1000px); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            animation: main-float 4s ease-in-out infinite;
+            perspective: 1000px;
+        }
+
+        @keyframes main-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        /* এনভেলপ বা খাম */
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #b33939; /* একটু ডিপার রেড */
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+        }
+
+        .lid {
+            position: absolute;
+            height: 0; width: 0;
+            top: 0; left: 0;
+            border-top: 120px solid #cd6133;
+            border-right: 160px solid transparent;
+            border-left: 160px solid transparent;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+        }
+
+        .envelope-wrapper::after {
+            content: '';
+            position: absolute;
+            z-index: 4;
+            width: 0; height: 0;
+            border-top: 110px solid transparent;
+            border-right: 160px solid #cf6a87;
+            border-bottom: 110px solid #cf6a87;
+            border-left: 160px solid #cf6a87;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            bottom: 0;
+        }
+
+        /* চিঠি */
+        .letter {
+            position: absolute;
+            background: #ffffff;
+            width: 90%;
+            height: 95%;
+            top: 5%;
+            left: 5%;
+            border-radius: 8px;
+            z-index: 2;
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .profile-pic {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #b33939;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .letter .text {
+            color: #2d3436;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .letter strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #b33939;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* খোলার পর লেটার ও লিড এর অবস্থান */
+        .envelope-wrapper.open .lid {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-180px) scale(1.05);
+            z-index: 5;
+            height: auto;
+            min-height: 250px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* হার্ট সিল */
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 35px;
+            height: 35px;
+            background-color: #ff5252;
+            z-index: 6;
+            transform: translate(-50%, -100%) rotate(45deg);
+            transition: 0.5s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background-color: #ff5252;
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -18px; left: 0; }
+        .heart::after { left: -18px; top: 0; }
+
+        .envelope-wrapper.open .heart {
+            opacity: 0;
+            transform: translate(-50%, -180px) rotate(45deg) scale(0);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <audio id="bdaySong" src="happy_birthday.mp3" preload="auto"></audio>
+
+    <div class="bg-decoration" id="stars"></div>
+
+    <div class="container">
+        <div class="envelope-wrapper" onclick="toggleLetter()">
+            <div class="lid"></div>
+            <div class="letter">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="profile-pic">
+                <div class="text">
+                    <strong>শুভ জন্মদিন! 🎂</strong>
+                    তোমার জীবনের প্রতিটি মুহূর্ত আকাশের তারার মতো উজ্জ্বল এবং সুন্দর হোক। সারাজীবন এভাবেই হাসিখুশি থেকো! <br><br>
+                    <small style="color:#636e72;">ভালোবাসা নিরন্তর,</small><br>
+                    <strong>[নকুল]</strong>
+                </div>
+            </div>
+            <div class="heart"></div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById("bdaySong");
+
+        function toggleLetter() {
+            const envelope = document.querySelector('.envelope-wrapper');
+            envelope.classList.toggle('open');
+            
+            if (envelope.classList.contains('open')) {
+                audio.play().catch(error => {
+                    console.log("Play blocked");
+                });
+                
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#ff5252', '#ffffff', '#ffb142', '#34ace0']
+                });
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+
+        // বাস্তবসম্মত তারকারাজি তৈরি
+        const starsContainer = document.getElementById('stars');
+        const starCount = 120; // তারার সংখ্যা বাড়ানো হয়েছে
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // বিভিন্ন সাইজ (১px থেকে ৩px)
+            const size = Math.random() * 2.5 + 0.5 + 'px'; 
+            star.style.width = size;
+            star.style.height = size;
+            
+            // রেন্ডম অবস্থান
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            
+            // রেন্ডম অ্যানিমেশন ডিউরেশন এবং কালার টিন্ট
+            const duration = Math.random() * 3 + 2 + 's';
+            star.style.setProperty('--duration', duration);
+            
+            // হালকা নীলাভ বা হলুদাভ রঙের আভা
+            const colors = ['#fff', '#fff', '#fff', '#dfe6e9', '#ffeaa7'];
+            star.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            starsContainer.appendChild(star);
+        }
+
+        // শুটিং স্টার তৈরি
+        function createShootingStar() {
+            const sStar = document.createElement('div');
+            sStar.classList.add('shooting-star');
+            sStar.style.left = Math.random() * 100 + 'vw';
+            sStar.style.top = Math.random() * 50 + 'vh';
+            starsContainer.appendChild(sStar);
+            
+            setTimeout(() => {
+                sStar.remove();
+            }, 4000);
+        }
+
+        // প্রতি ৫ সেকেন্ড অন্তর শুটিং স্টার আসবে
+        setInterval(createShootingStar, 5000);
+    </script>
+</body>
+</html>
